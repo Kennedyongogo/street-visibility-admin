@@ -1,0 +1,60 @@
+/* #root layout is in index.css (viewport-fill, flex); content width is via MUI Container in pages */
+
+/**
+ * Logo animation styles
+ * Applied to Street Visibility logo for subtle interactive effects
+ */
+.logo {
+  will-change: filter, transform;
+  transition: filter 300ms ease, transform 300ms ease;
+}
+
+.logo:hover {
+  /* Brand teal glow on hover */
+  filter: drop-shadow(0 0 1.5em rgba(29, 100, 105, 0.6));
+  transform: scale(1.05);
+}
+
+.logo.logo-spin {
+  /* Subtle continuous rotation for hero/splash screens */
+  animation: logo-spin 20s linear infinite;
+}
+
+.logo.logo-pulse {
+  /* Gentle pulse animation */
+  animation: logo-pulse 3s ease-in-out infinite;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logo-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.02);
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .logo,
+  .logo.logo-spin,
+  .logo.logo-pulse {
+    animation: none;
+    transition: filter 200ms ease;
+  }
+  
+  .logo:hover {
+    transform: none;
+  }
+}
