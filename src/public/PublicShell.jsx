@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Box } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { navItems } from "./home/constants";
 import HomeAppBar from "./home/HomeAppBar";
@@ -7,14 +8,21 @@ import SignUpDialog from "./home/SignUpDialog";
 import RequestPricingDialog from "./home/RequestPricingDialog";
 
 export default function PublicShell({ children, onGoToLogin }) {
-  const [signUpOpen, setSignUpOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [pricingOpen, setPricingOpen] = React.useState(false);
-  const [signUpRole, setSignUpRole] = React.useState("advertiser");
+  const [signUpOpen, setSignUpOpen] = React.useState(false);
 
-  const openSignUp = React.useCallback((role) => {
-    setSignUpRole(role ?? "advertiser");
-    setSignUpOpen(true);
-  }, []);
+  const openSignUp = React.useCallback(() => {
+    navigate("/register");
+  }, [navigate]);
+
+  React.useEffect(() => {
+    if (location.state?.openSignUpDialog) {
+      setSignUpOpen(true);
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location.state?.openSignUpDialog, location.pathname, navigate]);
 
   const closeSignUp = React.useCallback(() => setSignUpOpen(false), []);
 
@@ -33,7 +41,7 @@ export default function PublicShell({ children, onGoToLogin }) {
         width: "100%",
       }}
     >
-      <HomeAppBar navItems={navItems} onGoToLogin={onGoToLogin} onOpenSignUp={openSignUp} />
+      <HomeAppBar navItems={navItems} onGoToLogin={() => setSignUpOpen(true)} onOpenSignUp={openSignUp} />
 
       <Box
         component="main"
@@ -48,7 +56,7 @@ export default function PublicShell({ children, onGoToLogin }) {
         {typeof children === "function" ? children({ openSignUp, openPricing }) : children}
       </Box>
 
-      <SignUpDialog open={signUpOpen} onClose={closeSignUp} defaultRole={signUpRole} />
+      <SignUpDialog open={signUpOpen} onClose={closeSignUp} defaultRole="advertiser" />
       <RequestPricingDialog open={pricingOpen} onClose={closePricing} />
     </Box>
   );

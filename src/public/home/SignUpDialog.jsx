@@ -1,13 +1,11 @@
 import * as React from "react";
 import {
   Button,
-  CardContent,
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
   IconButton,
   Stack,
   TextField,
@@ -16,44 +14,50 @@ import {
   useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
-import { SvCard } from "./ui";
+
+const apiUrl = import.meta.env.VITE_API_URL || "/api";
 
 export default function SignUpDialog({ open, onClose, defaultRole: _defaultRole }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const role = "advertiser";
-  const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState("");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   React.useEffect(() => {
     if (!open) {
-      // Reset form and loading state when dialog closes
-      setName("");
       setEmail("");
+      setPassword("");
+      setError("");
       setIsSubmitting(false);
     }
   }, [open]);
 
-  const canSubmit = Boolean(email.trim()) && Boolean(name.trim()) && !isSubmitting;
+  const canSubmit = Boolean(email.trim()) && Boolean(password) && !isSubmitting;
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+    setError("");
     try {
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-    // No backend wired yet — keep it interactive and “real” by confirming.
-    // You can replace this with your API call later.
-    // eslint-disable-next-line no-alert
-    alert(
-      `Thanks, ${name}! We’ll reach out at ${email} to continue your ${role} onboarding.`
-    );
+      const res = await fetch(`${apiUrl}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data?.message || "Invalid email or password.");
+        return;
+      }
+
+      if (data?.data?.token) {
+        localStorage.setItem("token", data.data.token);
+      }
       onClose();
-    } catch (error) {
-      console.error("Sign up error:", error);
-      // eslint-disable-next-line no-alert
-      alert("Something went wrong. Please try again.");
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -74,7 +78,7 @@ export default function SignUpDialog({ open, onClose, defaultRole: _defaultRole 
       }}
     >
       <DialogTitle sx={{ pr: 6 }}>
-        Sign up
+        Log in
         <IconButton
           aria-label="Close"
           onClick={onClose}
@@ -86,49 +90,27 @@ export default function SignUpDialog({ open, onClose, defaultRole: _defaultRole 
       <DialogContent sx={{ pt: 1 }}>
         <Stack spacing={2.2} sx={{ mt: 1 }}>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Street Visibility connects brands with audiences through measurable,
-            data-driven campaigns with tracking, analytics, and transparent reporting.
+            Sign in to your Street Visibility account.
           </Typography>
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Full name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                label="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                fullWidth
-              />
-            </Grid>
-          </Grid>
-
-          <SvCard
-            sx={{
-              borderRadius: 3,
-              boxShadow: { xs: "0 10px 26px rgba(29, 100, 105, 0.10)", md: "0 14px 38px rgba(29, 100, 105, 0.10)" },
-            }}
-          >
-            <CardContent>
-              <Stack direction="row" spacing={1} alignItems="center">
-                <RocketLaunchIcon color="primary" />
-                <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>
-                  What happens next
-                </Typography>
-              </Stack>
-              <Typography variant="body2" sx={{ color: "text.secondary", mt: 1 }}>
-                You’ll receive a quick onboarding email with campaign planning and
-                tracking options.
-              </Typography>
-            </CardContent>
-          </SvCard>
+          <TextField
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            required
+          />
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            required
+            helperText={error}
+            error={Boolean(error)}
+          />
         </Stack>
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 3 }}>
@@ -141,10 +123,9 @@ export default function SignUpDialog({ open, onClose, defaultRole: _defaultRole 
           disabled={!canSubmit}
           startIcon={isSubmitting ? <CircularProgress size={16} color="inherit" /> : null}
         >
-          {isSubmitting ? "Submitting..." : "Continue"}
+          {isSubmitting ? "Signing in…" : "Log in"}
         </Button>
       </DialogActions>
     </Dialog>
   );
 }
-
