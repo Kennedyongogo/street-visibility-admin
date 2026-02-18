@@ -9,6 +9,7 @@ import HowItWorksPage from "./public/pages/HowItWorksPage";
 // import ContactPage from "./public/pages/ContactPage";
 import AboutPage from "./public/pages/AboutPage";
 import RegistrationPage from "./pages/registrationPage";
+import AdvertiserDashboard from "./pages/components/AdvertiserDashboard";
 import NotFound from "./public/pages/NotFound";
 import ErrorBoundary from "./components/ErrorBoundary";
 
@@ -49,6 +50,7 @@ const AppRoutes = () => {
         <Route path="/how-it-works" element={<HowItWorksPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/register" element={<RegistrationPage />} />
+        <Route path="/dashboard/*" element={<AdvertiserDashboard />} />
         {/* <Route path="/contact" element={<ContactPage />} /> */}
         <Route path="*" element={<NotFound />} />
       </Routes>
