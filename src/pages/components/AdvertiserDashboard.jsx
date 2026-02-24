@@ -6,8 +6,9 @@ import DashboardOverview from "./DashboardOverview";
 import CampaignManagement from "./CampaignManagement";
 import LiveTracking from "./LiveTracking";
 import AnalyticsROI from "./AnalyticsROI";
-import BillingPayments from "./BillingPayments";
+// import BillingPayments from "./BillingPayments";
 import BrandSettings from "./BrandSettings";
+import Settings from "./Settings";
 
 export default function AdvertiserDashboard() {
   const navigate = useNavigate();
@@ -24,8 +25,9 @@ export default function AdvertiserDashboard() {
         <Route path="campaigns" element={<CampaignManagement />} />
         <Route path="tracking" element={<LiveTracking />} />
         <Route path="analytics" element={<AnalyticsROI />} />
-        <Route path="billing" element={<BillingPayments />} />
-        <Route path="settings" element={<BrandSettings />} />
+        {/* <Route path="billing" element={<BillingPayments />} /> */}
+        <Route path="settings" element={<Settings />} />
+        <Route path="brand" element={<BrandSettings />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </DashboardLayout>
