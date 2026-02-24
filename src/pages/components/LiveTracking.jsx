@@ -7,7 +7,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Chip,
   Slider,
   Button,
 } from "@mui/material";
@@ -101,39 +100,6 @@ export default function LiveTracking() {
               justifyContent: "center",
             }}
           >
-            <Box
-              sx={{
-                position: "absolute",
-                top: 16,
-                left: 16,
-                zIndex: 1,
-                display: "flex",
-                gap: 1,
-                flexWrap: "wrap",
-              }}
-            >
-              {mapMarkers
-                .filter((m) => campaignFilter === "all" || m.campaign_id === campaignFilter)
-                .map((m, i) => (
-                  <motion.div
-                    key={m.id}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.05 }}
-                  >
-                    <Chip
-                      icon={<LocationOn sx={{ fontSize: 16 }} />}
-                      label={`Vehicle ${m.id} • ${m.distance_today} km`}
-                      size="small"
-                      sx={{
-                        background: "rgba(255,255,255,0.95)",
-                        "& .MuiChip-icon": { color: theme.green },
-                      }}
-                    />
-                  </motion.div>
-                ))}
-            </Box>
-
             <Box
               sx={{
                 width: "100%",
