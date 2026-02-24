@@ -9,6 +9,7 @@ import {
   Analytics,
   Payment,
   Business,
+  Settings as SettingsIcon,
   ChevronLeft,
   ChevronRight,
 } from "@mui/icons-material";
@@ -21,8 +22,9 @@ const navItems = [
   { path: "/dashboard/campaigns", label: "Campaigns", icon: Campaign },
   { path: "/dashboard/tracking", label: "Live Tracking", icon: LocationOn },
   { path: "/dashboard/analytics", label: "Analytics & ROI", icon: Analytics },
-  { path: "/dashboard/billing", label: "Billing & Payments", icon: Payment },
-  { path: "/dashboard/settings", label: "Brand Settings", icon: Business },
+  // { path: "/dashboard/billing", label: "Billing & Payments", icon: Payment },
+  { path: "/dashboard/brand", label: "Brand Settings", icon: Business },
+  { path: "/dashboard/settings", label: "Settings", icon: SettingsIcon },
 ];
 
 export default function AnimatedSidebar() {
