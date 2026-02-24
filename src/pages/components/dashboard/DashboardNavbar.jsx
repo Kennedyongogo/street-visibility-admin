@@ -117,11 +117,17 @@ export default function DashboardNavbar({ onQuickCreateCampaign }) {
           </Typography>
         </Box>
         <Divider sx={{ borderColor: theme.border }} />
-        <MenuItem onClick={() => navigate("/dashboard/settings")} sx={{ fontFamily: theme.fontBody, color: theme.mode === "dark" ? theme.mustard : theme.text }}>
+        <MenuItem
+          onClick={() => { setAnchorEl(null); navigate("/dashboard/brand"); }}
+          sx={{ fontFamily: theme.fontBody, color: theme.mode === "dark" ? theme.mustard : theme.text }}
+        >
           <ListItemIcon><Person fontSize="small" sx={{ color: theme.mode === "dark" ? theme.mustard : theme.textMuted }} /></ListItemIcon>
           Profile
         </MenuItem>
-        <MenuItem sx={{ fontFamily: theme.fontBody, color: theme.mode === "dark" ? theme.mustard : theme.text }}>
+        <MenuItem
+          onClick={() => { setAnchorEl(null); navigate("/dashboard/settings"); }}
+          sx={{ fontFamily: theme.fontBody, color: theme.mode === "dark" ? theme.mustard : theme.text }}
+        >
           <ListItemIcon><Settings fontSize="small" sx={{ color: theme.mode === "dark" ? theme.mustard : theme.textMuted }} /></ListItemIcon>
           Settings
         </MenuItem>
