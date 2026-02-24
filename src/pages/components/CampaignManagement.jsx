@@ -63,8 +63,8 @@ function CreateCampaignModal({ open, onClose }) {
     endDate: "",
   });
 
-  const steps = ["Choose Package", "Target & Budget", "Upload Artwork", "Review"];
-  const nextDisabled = step === 0 ? !form.package : step === 1 ? !form.name || !form.budget : false;
+  const steps = ["Choose Package", "Target & Schedule", "Upload Artwork", "Review"];
+  const nextDisabled = step === 0 ? !form.package : step === 1 ? !form.name : false;
 
   const handleNext = () => setStep((s) => Math.min(s + 1, steps.length - 1));
   const handleBack = () => setStep((s) => Math.max(s - 1, 0));
@@ -120,15 +120,10 @@ function CreateCampaignModal({ open, onClose }) {
                     }}
                     onClick={() => setForm((f) => ({ ...f, package: p.id }))}
                   >
-                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <Box>
-                        <Typography fontWeight={600} sx={{ color: theme.text }}>{p.name}</Typography>
-                        <Typography variant="caption" sx={{ color: theme.mode === "dark" ? theme.mustard : theme.textMuted }}>
-                          {p.cars} cars • {p.kmTarget.toLocaleString()} km target
-                        </Typography>
-                      </Box>
-                      <Typography fontWeight={700} sx={{ color: theme.teal }}>
-                        KES {p.price.toLocaleString()}
+                    <Box>
+                      <Typography fontWeight={600} sx={{ color: theme.text }}>{p.name}</Typography>
+                      <Typography variant="caption" sx={{ color: theme.mode === "dark" ? theme.mustard : theme.textMuted }}>
+                        {p.cars} cars • {p.kmTarget.toLocaleString()} km target
                       </Typography>
                     </Box>
                   </Paper>
@@ -166,17 +161,6 @@ function CreateCampaignModal({ open, onClose }) {
                 InputLabelProps={{ sx: { color: theme.mode === "dark" ? theme.mustard : undefined } }}
                 inputProps={{ style: { color: theme.text } }}
               />
-              <TextField
-                fullWidth
-                label="Budget (KES)"
-                type="number"
-                value={form.budget}
-                onChange={(e) => setForm((f) => ({ ...f, budget: e.target.value }))}
-                InputProps={{ startAdornment: <InputAdornment position="start" sx={{ color: theme.mode === "dark" ? theme.mustard : undefined }}>KES</InputAdornment> }}
-                sx={{ mb: 2 }}
-                InputLabelProps={{ sx: { color: theme.mode === "dark" ? theme.mustard : undefined } }}
-                inputProps={{ style: { color: theme.text } }}
-              />
               <Box sx={{ display: "flex", gap: 2 }}>
                 <TextField
                   fullWidth
@@ -197,13 +181,6 @@ function CreateCampaignModal({ open, onClose }) {
                   inputProps={{ style: { color: theme.text } }}
                 />
               </Box>
-              {pkg && form.budget && (
-                <Box sx={{ mt: 2, p: 1.5, borderRadius: 2, background: `${theme.green}18` }}>
-                  <Typography variant="caption" sx={{ color: theme.mode === "dark" ? theme.mustard : theme.textMuted }}>
-                    Coverage estimate: ~{Math.round((Number(form.budget) / pkg.price) * pkg.kmTarget).toLocaleString()} km
-                  </Typography>
-                </Box>
-              )}
             </motion.div>
           )}
 
@@ -246,7 +223,7 @@ function CreateCampaignModal({ open, onClose }) {
                 <Typography variant="subtitle2" sx={{ color: theme.mode === "dark" ? theme.mustard : theme.textMuted }}>Campaign Summary</Typography>
                 <Typography sx={{ color: theme.text }}>{form.name || "—"}</Typography>
                 <Typography variant="body2" sx={{ color: theme.mode === "dark" ? theme.mustard : theme.textMuted }}>
-                  {pkg?.name} • KES {form.budget ? Number(form.budget).toLocaleString() : "—"}
+                  {pkg?.name}
                 </Typography>
               </Paper>
             </motion.div>
@@ -268,7 +245,7 @@ function CreateCampaignModal({ open, onClose }) {
             "&:hover": { background: `linear-gradient(135deg, #257a80 0%, ${theme.teal} 100%)` },
           }}
         >
-          {step === steps.length - 1 ? "Create Campaign" : "Next"}
+          {step === steps.length - 1 ? "Propose to Administrator" : "Next"}
         </Button>
       </DialogActions>
     </Dialog>
@@ -386,7 +363,6 @@ export default function CampaignManagement() {
                   <TableCell sx={{ fontWeight: 600, color: theme.mode === "dark" ? theme.mustard : theme.text }}>Package</TableCell>
                   <TableCell sx={{ fontWeight: 600, color: theme.mode === "dark" ? theme.mustard : theme.text }}>Progress</TableCell>
                   <TableCell sx={{ fontWeight: 600, color: theme.mode === "dark" ? theme.mustard : theme.text }}>KM Covered</TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: theme.mode === "dark" ? theme.mustard : theme.text }}>Budget</TableCell>
                   <TableCell sx={{ fontWeight: 600, color: theme.mode === "dark" ? theme.mustard : theme.text }}>Status</TableCell>
                   <TableCell align="right" sx={{ fontWeight: 600, color: theme.mode === "dark" ? theme.mustard : theme.text }}>Actions</TableCell>
                 </TableRow>
@@ -423,7 +399,6 @@ export default function CampaignManagement() {
                         </Box>
                       </TableCell>
                       <TableCell sx={{ color: theme.text }}>{row.km_covered.toLocaleString()} / {row.km_target.toLocaleString()} km</TableCell>
-                      <TableCell sx={{ color: theme.text }}>KES {row.budget.toLocaleString()}</TableCell>
                       <TableCell>
                         <Chip
                           icon={<StatusIcon sx={{ fontSize: 16 }} />}
