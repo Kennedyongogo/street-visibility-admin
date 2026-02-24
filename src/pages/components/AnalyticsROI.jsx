@@ -80,29 +80,16 @@ export default function AnalyticsROI() {
         </Box>
       </motion.div>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard
-            title="Cost per Impression"
-            variant="dark"
-            value={costPerImpression.toFixed(2)}
-            prefix="KES "
-            decimals={2}
-            icon={TrendingUp}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard title="Total Impressions" variant="dark" value={dashboardStats.estimatedImpressions} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+      <Grid container spacing={4} sx={{ mb: 3 }}>
+        <Grid item xs={12} sm={6}>
           <StatCard title="KM Coverage" variant="dark" value={dashboardStats.totalKmCovered} suffix=" km" />
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6}>
           <StatCard title="Est. ROI" variant="dark" value="3.2" suffix="x" />
         </Grid>
       </Grid>
 
-      <Grid container spacing={3} sx={{ mt: 1 }}>
+      {/* <Grid container spacing={3} sx={{ mt: 1 }}>
         <Grid item xs={12} lg={8}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
             <Paper
@@ -145,9 +132,9 @@ export default function AnalyticsROI() {
               </ResponsiveContainer>
             </Paper>
           </motion.div>
-        </Grid>
+        </Grid> */}
 
-        <Grid item xs={12} lg={4}>
+        <Grid size xs={6} lg={4}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
             <Paper
               elevation={0}
@@ -188,7 +175,7 @@ export default function AnalyticsROI() {
           </motion.div>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} sx={{ mt: 3 }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <Paper
               elevation={0}
@@ -220,7 +207,7 @@ export default function AnalyticsROI() {
           </motion.div>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        {/* <Grid item xs={12} md={6}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
             <Paper
               elevation={0}
@@ -247,18 +234,13 @@ export default function AnalyticsROI() {
                     border: `1px solid ${theme.green}40`,
                   }}
                 >
-                  <Typography variant="caption" sx={{ color: theme.mode === "dark" ? theme.mustard : theme.textMuted }}>
-                    Cost per 1000 impressions (CPM)
-                  </Typography>
-                  <Typography variant="h5" fontWeight={700} sx={{ color: theme.teal }}>
-                    KES {(costPerImpression * 1000).toFixed(2)}
-                  </Typography>
+                  
                 </Box>
               </Box>
             </Paper>
           </motion.div>
-        </Grid>
-      </Grid>
+        </Grid> */}
+      {/* </Grid> */}
     </Box>
   );
 }
